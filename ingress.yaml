@@ -1,0 +1,41 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: procurement-web-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: procurement.local
+      http:
+        paths:
+          - path: /notices
+            pathType: Prefix
+            backend:
+              service:
+                name: notices-svc
+                port:
+                  number: 80
+          - path: /notice-detail
+            pathType: Prefix
+            backend:
+              service:
+                name: notice-detail-svc
+                port:
+                  number: 80
+          - path: /about
+            pathType: Prefix
+            backend:
+              service:
+                name: about-svc
+                port:
+                  number: 80
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: main-svc
+                port:
+                  number: 80

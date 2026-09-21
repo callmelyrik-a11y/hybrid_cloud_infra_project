@@ -1,0 +1,9 @@
+const notices=[
+ {no:'R26BK01028473',title:'클라우드 기반 조달 웹서비스 구축 사업',agency:'조달청',type:'용역',method:'일반경쟁',date:'2026.09.30',status:'진행 중',cls:''},
+ {no:'R26BK01031208',title:'공공 웹서비스 사용자 환경 개선 사업',agency:'공공기관 A',type:'용역',method:'제한경쟁',date:'2026.09.25',status:'마감 임박',cls:'soon'},
+ {no:'R26BK01019722',title:'2026년 정보시스템 통합 유지관리 용역',agency:'공공기관 B',type:'유지관리',method:'일반경쟁',date:'2026.09.18',status:'마감',cls:'closed'},
+ {no:'R26BK01033461',title:'데이터센터 네트워크 장비 고도화',agency:'공공기관 C',type:'물품',method:'제한경쟁',date:'2026.10.08',status:'진행 중',cls:''},
+ {no:'R26BK01035109',title:'업무망 보안체계 개선 및 기술지원',agency:'공공기관 D',type:'용역',method:'협상계약',date:'2026.10.14',status:'진행 중',cls:''}
+];
+function renderNotices(){const body=document.querySelector('#notice-body');if(!body)return;const q=(document.querySelector('#keyword')?.value||'').trim().toLowerCase();const type=document.querySelector('#type')?.value||'';const status=document.querySelector('#status')?.value||'';const rows=notices.filter(n=>(n.title+n.no+n.agency).toLowerCase().includes(q)&&(!type||n.type===type)&&(!status||n.status===status));document.querySelector('#result-total').textContent=rows.length;body.innerHTML=rows.length?rows.map(n=>`<tr><td>${n.no}</td><td><a class="more" href="../notice-detail/">${n.title}</a></td><td>${n.agency}</td><td>${n.method}</td><td>${n.date}</td><td><span class="badge ${n.cls}">${n.status}</span></td></tr>`).join(''):'<tr><td colspan="6">검색 조건에 맞는 입찰공고가 없습니다.</td></tr>'}
+document.addEventListener('DOMContentLoaded',()=>{const keyword=document.querySelector('#keyword');if(keyword){const q=new URLSearchParams(location.search).get('q');if(q)keyword.value=q}document.querySelectorAll('#keyword,#type,#status').forEach(el=>el.addEventListener(el.tagName==='INPUT'?'input':'change',renderNotices));renderNotices()});
